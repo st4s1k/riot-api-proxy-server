@@ -1,0 +1,19 @@
+name = "riot-api-proxy-server"
+main = "src/worker.ts"
+compatibility_date = "2023-04-04"
+env = {}
+
+[vars]
+# Riot API default region
+DEFAULT_REGION = "euw1"
+# Cache duration in seconds (0 to disable)
+CACHE_DURATION = 3600 # 1 hour
+# Rate limit interval in seconds
+RATE_LIMIT_INTERVAL = 60 # 1 minute
+# Rate limit burst (max requests per interval)
+RATE_LIMIT_BURST = 100
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT_KV"
+id = "b095bb1ae59d486ab97b46c0a88f7462"
+preview_id = "2e2be3a2a37e43608a404b49bbd92e20"
