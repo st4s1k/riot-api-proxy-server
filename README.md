@@ -94,16 +94,28 @@ A Cloudflare Worker that acts as a proxy server for the Riot Games API, managing
     npm run test:log
     ```
 
-    This command will run the tests and save the output to a log file located in the logs directory. The log file will be named with the format YYYY-MM-DD_HH-mm-ss.log.
+    This command will run the tests and save the output to a log file located in the logs directory. The log file will be named with the format: `YYYY-MM-DD_HH-mm-ss.log`
 
 ## Configuration
 
-The worker configuration can be modified through environment variables or `vars` section in the `wrangler.toml` file:
+The worker configuration can be modified through environment variables or `[vars]` section in the `wrangler.toml` file:
 
 -   `DEFAULT_REGION`: Default region for Riot API requests (default: "euw1")
--   `CACHE_DURATION`: Cache duration in seconds (0 to disable) (default: 3600)
--   `RATE_LIMIT_INTERVAL`: Rate limit interval in seconds (default: 60)
--   `RATE_LIMIT_BURST`: Rate limit burst (max requests per interval) (default: 100)
+-   `CACHE_DURATION`: Cache duration in seconds (0 to disable) (default: 60 seconds)
+-   `CLIENT_RATE_LIMIT_BURST`: Rate limit burst (max requests per interval) (default: 5 requests)
+-   `CLIENT_RATE_LIMIT_INTERVAL`: Rate limit interval in seconds (default: 10 seconds)
+-   `SERVER_RATE_LIMIT_BURST`: Rate limit burst (max requests per interval) (default: 500 requests)
+-   `SERVER_RATE_LIMIT_INTERVAL`: Rate limit interval in seconds (default: 10 seconds)
+
+## Secret Environment Variables
+
+Create a `.env` file in the project root directory and add the environment variables there. The `.env` file is ignored by git and will not be committed to the repository. It should contain the Riot Games API key:
+
+-   `API_KEY`: Riot Games API key
+
+    ```dotenv
+    API_KEY=RGAPI-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    ```
 
 ## License
 
