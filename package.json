@@ -1,24 +1,38 @@
 {
   "name": "riot-api-proxy-server",
-  "version": "0.0.0",
+  "description": "A proxy server for the Riot Games API",
+  "author": "st4s1k",
+  "license": "MIT",
+  "version": "1.0.0",
+  "type": "module",
+  "module": "./src/worker.ts",
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20230404.0",
+    "@types/jest": "^29.5.0",
     "@types/node": "^18.15.11",
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "@typescript-eslint/parser": "^5.57.0",
+    "cross-env": "^7.0.3",
     "esbuild": "^0.14.41",
     "eslint": "^8.37.0",
+    "jest": "^29.5.0",
+    "jest-environment-miniflare": "^2.13.0",
     "npm": "^9.6.2",
     "prettier": "^2.6.2",
     "rollup-plugin-node-polyfills": "^0.2.1",
+    "ts-jest": "^29.1.0",
     "typescript": "^5.0.3",
     "wrangler": "2.13.0"
   },
   "scripts": {
-    "start": "wrangler dev",
+    "build": "node build.js",
+    "dev": "miniflare --live-reload --debug --modules src/worker.ts",
+    "dev:remote": "wrangler dev",
     "deploy": "wrangler publish",
-    "build": "wrangler publish --dry-run --outdir dist",
     "tail": "wrangler tail",
-    "test": "jest"
+    "test": "jest",
+    "test:log": "cross-env node runTests.js",
+    "test:silent": "jest --silent",
+    "types:check": "tsc && tsc -p test/tsconfig.json"
   }
 }

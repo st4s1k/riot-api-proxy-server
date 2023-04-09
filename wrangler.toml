@@ -6,14 +6,18 @@ env = {}
 [vars]
 # Riot API default region
 DEFAULT_REGION = "euw1"
-# Cache duration in seconds (0 to disable)
-CACHE_DURATION = 3600 # 1 hour
-# Rate limit interval in seconds
-RATE_LIMIT_INTERVAL = 60 # 1 minute
-# Rate limit burst (max requests per interval)
-RATE_LIMIT_BURST = 100
+CACHE_DURATION = 60 # seconds
+# Client rate limit (requests per second)
+CLIENT_RATE_LIMIT_BURST = 5 # number of requests 
+CLIENT_RATE_LIMIT_INTERVAL = 10 # seconds
+# Server rate limit (requests per second)
+SERVER_RATE_LIMIT_BURST = 500 # number of requests
+SERVER_RATE_LIMIT_INTERVAL = 10 # seconds
 
 [[kv_namespaces]]
 binding = "RATE_LIMIT_KV"
 id = "b095bb1ae59d486ab97b46c0a88f7462"
 preview_id = "2e2be3a2a37e43608a404b49bbd92e20"
+
+[build]
+command = "npm run build"
