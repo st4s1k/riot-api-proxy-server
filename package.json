@@ -22,17 +22,15 @@
     "rollup-plugin-node-polyfills": "^0.2.1",
     "ts-jest": "^29.1.0",
     "typescript": "^5.0.3",
-    "wrangler": "2.13.0"
+    "wrangler": "2.14.0"
   },
   "scripts": {
-    "build": "node build.js",
-    "dev": "miniflare --live-reload --debug --modules src/worker.ts",
-    "dev:remote": "wrangler dev",
+    "start": "wrangler dev",
+    "build": "wrangler publish --dry-run --outdir dist",
     "deploy": "wrangler publish",
     "tail": "wrangler tail",
     "test": "jest",
     "test:log": "cross-env node runTests.js",
-    "test:silent": "jest --silent",
-    "types:check": "tsc && tsc -p test/tsconfig.json"
+    "test:silent": "jest --silent"
   }
 }

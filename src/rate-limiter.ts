@@ -22,7 +22,7 @@ export interface RateLimiterInit {
 }
 
 export class RateLimitInfo {
-    readonly timestamps: number[];
+    readonly timestamps: number[] = [];
 
     /**
      * Rate limit info
@@ -35,7 +35,7 @@ export class RateLimitInfo {
      * const rateLimitInfo = new RateLimitInfo([1234567890, 1234567891]);
      */
     constructor(timestamps: number[] = []) {
-        this.timestamps = timestamps;
+        this.timestamps.push(...timestamps);
     }
 
     add(currentTime: number) {
@@ -73,7 +73,7 @@ export class RateLimiter {
     readonly rateLimitKv: KVNamespace;
     readonly rateLimitBurst: number; // number of requests
     readonly rateLimitInterval: TimeInterval;
-
+    readonly requestTimestamp: number;
 
     /**
      * Rate limiter
@@ -115,12 +115,14 @@ export class RateLimiter {
      * }
      */
     constructor(
-        init: RateLimiterInit
+        init: RateLimiterInit,
+        requestTimestamp: number = Date.now()
     ) {
         this.key = init.key;
         this.rateLimitKv = init.rateLimitKv;
         this.rateLimitBurst = init.rateLimitBurst;
         this.rateLimitInterval = new TimeInterval(init.rateLimitInterval);
+        this.requestTimestamp = requestTimestamp;
     }
 
     /**
@@ -131,12 +133,11 @@ export class RateLimiter {
         try {
             const rateLimitInfo: RateLimitInfo = await this.getRateLimitInfo();
             console.log("rateLimiter: rateLimitInfo:", rateLimitInfo);
-            const currentTime: number = Date.now();
-            console.log("rateLimiter: currentTime:", currentTime);
+            console.log("rateLimiter: currentTime:", this.requestTimestamp);
 
             // Remove expired requests from the list
             const filteredInfo: number[] = rateLimitInfo.timestamps.filter(
-                (timestamp) => (currentTime - timestamp) < this.rateLimitInterval.milliseconds
+                (timestamp) => (this.requestTimestamp - timestamp) < this.rateLimitInterval.milliseconds
             );
             console.log("rateLimiter: filteredInfo:", filteredInfo);
             const filteredRateLimitInfo = new RateLimitInfo(filteredInfo);
@@ -148,7 +149,7 @@ export class RateLimiter {
             }
 
             // Add the current request timestamp
-            filteredRateLimitInfo.add(currentTime);
+            filteredRateLimitInfo.add(this.requestTimestamp);
             await this.updateRateLimitInfo(filteredRateLimitInfo);
             return true;
         } catch (error) {
@@ -186,14 +187,14 @@ export class RateLimiter {
         let value: any;
         if (valueString) {
             value = JSON.parse(valueString);
-            console.log("getRateLimitInfo: value:", value);
+            console.log("getValue: value:", value);
         } else {
-            console.log("getRateLimitInfo: value is null");
+            console.log("getValue: value is null");
             value = [];
         }
         if (!Array.isArray(value)) {
-            console.error("getRateLimitInfo: value is not an array");
-            throw new Error("getRateLimitInfo: value is not an array");
+            console.error("getValue: value is not an array");
+            throw new Error("getValue: value is not an array");
         }
         return value as number[];
     }

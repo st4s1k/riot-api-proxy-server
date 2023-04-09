@@ -1,4 +1,4 @@
-import { Region } from "@/objects";
+import RATE_LIMITS, { RateLimit, Region } from "@/objects";
 import { RateLimiter, RateLimiterInit } from "@/rate-limiter";
 
 /**
@@ -21,7 +21,11 @@ export async function handleRequest(request: Request, env: Env, ctx: ExecutionCo
         }
 
         // Convert the incoming request to a Riot API request
-        const riotAPIUrl: URL = convertToRiotAPIUrl(request, env);
+        const url: URL = new URL(request.url);
+        console.log("handleRequest: url:", url);
+        const region: Region = extractRegion(url, env);
+        console.log("handleRequest: region:", region);
+        const riotAPIUrl: URL = convertToRiotAPIUrl(url, region);
         console.log("handleRequest: riotAPIUrl:", riotAPIUrl);
         const riotAPIUrlString: string = riotAPIUrl.toString();
         console.log("handleRequest: riotAPIUrlString:", riotAPIUrlString);
@@ -30,12 +34,24 @@ export async function handleRequest(request: Request, env: Env, ctx: ExecutionCo
             "User-Agent": "RiotAPIProxy/1.0.0 (https://github.com/st4s1k/riot-api-proxy-server)"
         };
 
+        // Find the rate limit for the request
+        const rateLimit: RateLimit | undefined = RATE_LIMITS.find((item: RateLimit) =>
+            new URLPattern({ pathname: item.path }).test(riotAPIUrl));
+
+        console.log("handleRequest: rateLimit:", rateLimit);
+
+        if (!rateLimit) {
+            console.error("handleRequest: rate limit not found");
+            return new Response("Rate limit not found", { status: 500 /* Internal Server Error */ });
+        }
+
         // Check the rate limit for the client and return an error if exceeded
+        const incomingRateLimitBurst = rateLimit.burst * env.CLIENT_RATE_LIMIT_MULTIPLIER;
         const incomingRateLimiterInit: RateLimiterInit = {
-            key: `in:${ip}:${riotAPIUrlString}`,
+            key: `in:${ip}:${region}:${rateLimit.method}`,
             rateLimitKv: env.RATE_LIMIT_KV,
-            rateLimitBurst: env.CLIENT_RATE_LIMIT_BURST,
-            rateLimitInterval: env.CLIENT_RATE_LIMIT_INTERVAL
+            rateLimitBurst: incomingRateLimitBurst,
+            rateLimitInterval: rateLimit.interval
         };
         const incomingRateLimiter = new RateLimiter(incomingRateLimiterInit);
         if (!await incomingRateLimiter.isAllowed()) {
@@ -45,10 +61,10 @@ export async function handleRequest(request: Request, env: Env, ctx: ExecutionCo
 
         // Check the rate limit for the server and return an error if exceeded
         const outgoingRateLimiterInit: RateLimiterInit = {
-            key: `out:${riotAPIUrlString}`,
+            key: `out:${region}:${rateLimit.method}`,
             rateLimitKv: env.RATE_LIMIT_KV,
-            rateLimitBurst: env.SERVER_RATE_LIMIT_BURST,
-            rateLimitInterval: env.SERVER_RATE_LIMIT_INTERVAL
+            rateLimitBurst: rateLimit.burst,
+            rateLimitInterval: rateLimit.interval
         };
         const outgoingRateLimiter = new RateLimiter(outgoingRateLimiterInit);
         if (!await outgoingRateLimiter.isAllowed()) {
@@ -113,12 +129,7 @@ export async function handleRequest(request: Request, env: Env, ctx: ExecutionCo
  * @param request The incoming request
  * @returns The converted request
  */
-export function convertToRiotAPIUrl(request: Request<unknown, CfProperties<unknown>>, env: Env): URL {
-    const url: URL = new URL(request.url);
-    console.log("convertToRiotAPIUrl: url:", url);
-    const region: Region = extractRegion(url, env);
-    console.log("convertToRiotAPIUrl: region:", region);
-
+export function convertToRiotAPIUrl(url: URL, region: Region): URL {
     if (url.pathname.startsWith(`/${region}`)) {
         url.pathname = url.pathname.substring(region.length + 1);
     }

@@ -102,10 +102,7 @@ The worker configuration can be modified through environment variables or `[vars
 
 -   `DEFAULT_REGION`: Default region for Riot API requests (default: "euw1")
 -   `CACHE_DURATION`: Cache duration in seconds (0 to disable) (default: 60 seconds)
--   `CLIENT_RATE_LIMIT_BURST`: Rate limit burst (max requests per interval) (default: 5 requests)
--   `CLIENT_RATE_LIMIT_INTERVAL`: Rate limit interval in seconds (default: 10 seconds)
--   `SERVER_RATE_LIMIT_BURST`: Rate limit burst (max requests per interval) (default: 500 requests)
--   `SERVER_RATE_LIMIT_INTERVAL`: Rate limit interval in seconds (default: 10 seconds)
+-   `CLIENT_RATE_LIMIT_MULTIPLIER`: The multiplier is used to reduce the rate limit to avoid hitting the server rate limit (default: 0.5)
 
 ## Secret Environment Variables
 

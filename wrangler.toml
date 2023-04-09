@@ -7,17 +7,10 @@ env = {}
 # Riot API default region
 DEFAULT_REGION = "euw1"
 CACHE_DURATION = 60 # seconds
-# Client rate limit (requests per second)
-CLIENT_RATE_LIMIT_BURST = 5 # number of requests 
-CLIENT_RATE_LIMIT_INTERVAL = 10 # seconds
-# Server rate limit (requests per second)
-SERVER_RATE_LIMIT_BURST = 500 # number of requests
-SERVER_RATE_LIMIT_INTERVAL = 10 # seconds
+# The multiplier is used to reduce the rate limit to avoid hitting the server rate limit
+CLIENT_RATE_LIMIT_MULTIPLIER = 0.5 # 0.5 = 50% of the rate limit
 
 [[kv_namespaces]]
 binding = "RATE_LIMIT_KV"
 id = "b095bb1ae59d486ab97b46c0a88f7462"
 preview_id = "2e2be3a2a37e43608a404b49bbd92e20"
-
-[build]
-command = "npm run build"

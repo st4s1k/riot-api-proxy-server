@@ -1,3 +1,5 @@
+import { rateLimits as RATE_LIMITS_JSON } from "../riot-api-rate-limits.json";
+
 export enum Region {
     BR1 = "br1",
     EUN1 = "eun1",
@@ -16,3 +18,18 @@ export enum Region {
     TW2 = "tw2",
     VN2 = "vn2",
 }
+
+export interface RateLimit {
+    method: string;
+    path: string;
+    burst: number;
+    interval: number;
+}
+
+export interface RateLimits {
+    rateLimits: RateLimit[];
+}
+
+const RATE_LIMITS: RateLimit[] = RATE_LIMITS_JSON;
+
+export default RATE_LIMITS;

@@ -1,0 +1,238 @@
+{
+    "rateLimits": [
+        {
+            "method": "GET",
+            "path": "/lol/status/v3/shard-data",
+            "burst": 30,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/platform/v3/champion-rotations",
+            "burst": 30,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/summoner/v4/summoners/by-account/:encryptedAccountId",
+            "burst": 1600,
+            "interval": 60
+        },
+        {
+            "method": "GET",
+            "path": "/lol/summoner/v4/summoners/:encryptedSummonerId",
+            "burst": 1600,
+            "interval": 60
+        },
+        {
+            "method": "GET",
+            "path": "/lol/summoner/v4/summoners/by-name/:summonerName",
+            "burst": 1600,
+            "interval": 60
+        },
+        {
+            "method": "GET",
+            "path": "/lol/summoner/v4/summoners/by-puuid/:encryptedPUUID",
+            "burst": 1600,
+            "interval": 60
+        },
+        {
+            "method": "GET",
+            "path": "/lol/champion-mastery/v4/champion-masteries/by-summoner/:encryptedSummonerId",
+            "burst": 2000,
+            "interval": 60
+        },
+        {
+            "method": "GET",
+            "path": "/lol/champion-mastery/v4/champion-masteries/by-summoner/:encryptedSummonerId/by-champion/:championId",
+            "burst": 2000,
+            "interval": 60
+        },
+        {
+            "method": "GET",
+            "path": "/lol/champion-mastery/v4/scores/by-summoner/:encryptedSummonerId",
+            "burst": 2000,
+            "interval": 60
+        },
+        {
+            "method": "GET",
+            "path": "/lol/champion-mastery/v4/champion-masteries/by-summoner/:encryptedSummonerId/top",
+            "burst": 20000,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/spectator/v4/active-games/by-summoner/:encryptedSummonerId",
+            "burst": 20000,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/spectator/v4/featured-games",
+            "burst": 20000,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/league/v4/challengerleagues/by-queue/:queue",
+            "burst": 30,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/league/v4/leagues/:leagueId",
+            "burst": 500,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/league/v4/masterleagues/by-queue/:queue",
+            "burst": 30,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/league/v4/grandmasterleagues/by-queue/:queue",
+            "burst": 30,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/league/v4/entries/by-summoner/:encryptedSummonerId",
+            "burst": 100,
+            "interval": 60
+        },
+        {
+            "method": "GET",
+            "path": "/lol/league/v4/entries/:queue/:tier/:division",
+            "burst": 50,
+            "interval": 10
+        },
+        {
+            "method": "POST",
+            "path": "/lol/tournament-stub/v4/codes",
+            "burst": 10,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/tournament-stub/v4/lobby-events/by-code/:tournamentCode",
+            "burst": 10,
+            "interval": 10
+        },
+        {
+            "method": "POST",
+            "path": "/lol/tournament-stub/v4/providers",
+            "burst": 10,
+            "interval": 10
+        },
+        {
+            "method": "POST",
+            "path": "/lol/tournament-stub/v4/tournaments",
+            "burst": 10,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/league-exp/v4/entries/:queue/:tier/:division",
+            "burst": 50,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/clash/v1/players/by-summoner/:summonerId",
+            "burst": 200,
+            "interval": 60
+        },
+        {
+            "method": "GET",
+            "path": "/lol/clash/v1/teams/:teamId",
+            "burst": 200,
+            "interval": 60
+        },
+        {
+            "method": "GET",
+            "path": "/lol/clash/v1/tournaments/:tournamentId",
+            "burst": 10,
+            "interval": 60
+        },
+        {
+            "method": "GET",
+            "path": "/lol/clash/v1/tournaments/by-team/:teamId",
+            "burst": 200,
+            "interval": 60
+        },
+        {
+            "method": "GET",
+            "path": "/lol/clash/v1/tournaments",
+            "burst": 10,
+            "interval": 60
+        },
+        {
+            "method": "GET",
+            "path": "/lol/clash/v1/players/by-puuid/:encryptedPUUID",
+            "burst": 20000,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/status/v4/platform-data",
+            "burst": 20000,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/match/v5/matches/:matchId",
+            "burst": 2000,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/match/v5/matches/by-puuid/:puuid/ids",
+            "burst": 2000,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/match/v5/matches/:matchId/timeline",
+            "burst": 2000,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/challenges/v1/challenges/percentiles",
+            "burst": 20000,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/challenges/v1/challenges/:challengeId/leaderboards/by-level/:level",
+            "burst": 20000,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/challenges/v1/challenges/:challengeId/percentiles",
+            "burst": 20000,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/challenges/v1/challenges/:challengeId/config",
+            "burst": 20000,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/challenges/v1/player-data/:puuid",
+            "burst": 20000,
+            "interval": 10
+        },
+        {
+            "method": "GET",
+            "path": "/lol/challenges/v1/challenges/config",
+            "burst": 20000,
+            "interval": 10
+        }
+    ]
+}
